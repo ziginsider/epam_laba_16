@@ -17,6 +17,7 @@ android {
 dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 task checkstyle(type: Checkstyle) {
@@ -31,4 +32,7 @@ task checkstyle(type: Checkstyle) {
 
 checkstyle {
     dependencies { checkstyle "com.puppycrawl.tools:checkstyle:8.8" }
+}
+repositories {
+    mavenCentral()
 }
