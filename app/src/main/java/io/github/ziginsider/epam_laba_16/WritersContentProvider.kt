@@ -1,9 +1,6 @@
 package io.github.ziginsider.epam_laba_16
 
-import android.content.ContentProvider
-import android.content.ContentValues
-import android.content.Context
-import android.content.UriMatcher
+import android.content.*
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -33,15 +30,25 @@ class WritersContentProvider : ContentProvider() {
         return true
     }
 
+    override fun insert(uri: Uri?, contentValues: ContentValues?): Uri {
+        val matchUri = uriMatcher.match(uri)
+        if (matchUri != WRITERS) throw IllegalArgumentException("Unknown URI = $uri")
+        val db = dbHelper.writableDatabase
+        val values = if (contentValues != null) ContentValues(contentValues) else ContentValues()
+        var rowUri = Uri.EMPTY
+        val rowId = db.insert(DATA_BASE_TABLE_NAME, COLUMN_NAME_FIRST_NAME, values)
+        if (rowId > 0) {
+            rowUri = ContentUris.withAppendedId(CONTENT_ID_URI_BASE, rowId)
+            context.contentResolver.notifyChange(rowUri, null)
+        }
+        return rowUri
+    }
+
     override fun delete(p0: Uri?, p1: String?, p2: Array<out String>?): Int {
 
     }
 
     override fun update(p0: Uri?, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int {
-
-    }
-
-    override fun insert(p0: Uri?, p1: ContentValues?): Uri {
 
     }
 
