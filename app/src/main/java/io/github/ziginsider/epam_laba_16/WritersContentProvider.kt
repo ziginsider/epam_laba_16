@@ -49,8 +49,22 @@ class WritersContentProvider : ContentProvider() {
 
     }
 
-    override fun update(p0: Uri?, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int {
-
+    override fun update(uri: Uri?, values: ContentValues?, where: String?,
+                        selectionArgs: Array<out String>?): Int {
+        val db = dbHelper.writableDatabase
+        val count: Int
+        when (uriMatcher.match(uri)) {
+            WRITERS -> count = db.update(DATA_BASE_TABLE_NAME, values, where, selectionArgs)
+            WRITERS_ID -> {
+                val id = uri?.pathSegments?.get(WRITERS_ID_PATH_POSITION)
+                var selection = "$COLUMN_NAME_ID = $id"
+                where?.let { selection = "$selection AND $where" }
+                count = db.update(DATA_BASE_TABLE_NAME, values, selection, selectionArgs)
+            }
+            else -> throw IllegalArgumentException("Unknown URI = $uri")
+        }
+        context.contentResolver.notifyChange(uri, null)
+        return count
     }
 
     override fun query(uri: Uri?, projection: Array<out String>?, selection: String?,
