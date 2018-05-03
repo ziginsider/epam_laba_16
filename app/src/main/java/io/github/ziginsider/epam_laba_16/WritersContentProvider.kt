@@ -4,6 +4,7 @@ import android.content.*
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 
 const val WRITERS = 1
@@ -11,14 +12,14 @@ const val WRITERS_ID = 2
 
 class WritersContentProvider : ContentProvider() {
     companion object {
-        private lateinit var writersRequestMap: HashMap<String, String>
+        private lateinit var writersProjectionMap: HashMap<String, String>
         private val uriMatcher: UriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
         init {
             uriMatcher.addURI(AUTHORITY, DATA_BASE_TABLE_NAME, WRITERS)
             uriMatcher.addURI(AUTHORITY, "$DATA_BASE_TABLE_NAME/#", WRITERS_ID)
             for (request in DEFAULT_REQUEST) {
-                writersRequestMap.put(request, request)
+                writersProjectionMap.put(request, request)
             }
         }
     }
@@ -52,8 +53,29 @@ class WritersContentProvider : ContentProvider() {
 
     }
 
-    override fun query(p0: Uri?, p1: Array<out String>?, p2: String?, p3: Array<out String>?, p4: String?): Cursor {
-
+    override fun query(uri: Uri?, projection: Array<out String>?, selection: String?,
+                       selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
+        val qBuilder = SQLiteQueryBuilder()
+        val orderBy: String
+        when (uriMatcher.match(uri)) {
+            WRITERS -> {
+                qBuilder.tables = DATA_BASE_TABLE_NAME
+                qBuilder.setProjectionMap(writersProjectionMap)
+                orderBy = DEFAULT_SORT_ORDER
+            }
+            WRITERS_ID -> {
+                qBuilder.tables = DATA_BASE_TABLE_NAME
+                qBuilder.setProjectionMap(writersProjectionMap)
+                qBuilder.appendWhere("$COLUMN_NAME_ID = " +
+                        "${uri?.pathSegments?.get(WRITERS_ID_PATH_POSITION)}")
+                orderBy = DEFAULT_SORT_ORDER
+            }
+            else -> throw IllegalArgumentException("Unknown URI = $uri")
+        }
+        val db = dbHelper.readableDatabase
+        val cursor = qBuilder.query(db, projection, selection, selectionArgs, null, null, orderBy)
+        cursor.setNotificationUri(context.contentResolver, uri)
+        return cursor
     }
 
     override fun getType(uri: Uri?) = when (uriMatcher.match(uri)) {
@@ -61,7 +83,6 @@ class WritersContentProvider : ContentProvider() {
         WRITERS_ID -> CONTENT_ITEM_TYPE
         else -> throw IllegalArgumentException("Unknown URI = $uri")
     }
-
 
     private class DataBaseHelper(val context: Context) : SQLiteOpenHelper(context, DATA_BASE_NAME,
             null, DATA_BASE_VERSION) {
