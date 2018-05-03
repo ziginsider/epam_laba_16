@@ -45,8 +45,21 @@ class WritersContentProvider : ContentProvider() {
         return rowUri
     }
 
-    override fun delete(p0: Uri?, p1: String?, p2: Array<out String>?): Int {
-
+    override fun delete(uri: Uri?, where: String?, selectionArgs: Array<out String>?): Int {
+        val db = dbHelper.writableDatabase
+        val count: Int
+        when (uriMatcher.match(uri)) {
+            WRITERS -> count = db.delete(DATA_BASE_TABLE_NAME, where, selectionArgs)
+            WRITERS_ID -> {
+                var selection
+                        = "$COLUMN_NAME_ID = ${uri?.pathSegments?.get(WRITERS_ID_PATH_POSITION)}"
+                where?.let { selection = "$selection AND $where" }
+                count = db.delete(DATA_BASE_TABLE_NAME, selection, selectionArgs)
+            }
+            else -> throw IllegalArgumentException("Unknown URI = $uri")
+        }
+        context.contentResolver.notifyChange(uri, null)
+        return count
     }
 
     override fun update(uri: Uri?, values: ContentValues?, where: String?,
