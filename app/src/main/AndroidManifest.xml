@@ -22,7 +22,9 @@
             android:authorities="io.github.ziginsider.epam_laba_16.ContractKt"
             android:exported="false" />
 
-        <activity android:name=".ListViewActivity"></activity>
+        <activity
+            android:parentActivityName=".MainActivity"
+            android:name=".ListViewActivity"/>
     </application>
 
 </manifest>

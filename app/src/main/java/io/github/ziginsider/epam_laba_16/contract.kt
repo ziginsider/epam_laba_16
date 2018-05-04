@@ -17,14 +17,14 @@ const val CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.io.ziginsider.writers
 const val DATA_BASE_VERSION = 1
 const val DATA_BASE_NAME = "writers_db"
 const val DATA_BASE_TABLE_NAME = "writers_table"
-const val COLUMN_NAME_ID = "_id"
+const val _ID = "_id"
 const val COLUMN_NAME_FIRST_NAME = "first_name"
 const val COLUMN_NAME_SECOND_NAME = "second_name"
 const val COLUMN_NAME_BOOK = "book_name"
 const val COLUMN_NAME_ISBN = "isbn"
 const val DEFAULT_SORT_ORDER = "book_name ASC"
 val DEFAULT_REQUEST = arrayOf(
-        COLUMN_NAME_ID,
+        _ID,
         COLUMN_NAME_FIRST_NAME,
         COLUMN_NAME_SECOND_NAME,
         COLUMN_NAME_BOOK,

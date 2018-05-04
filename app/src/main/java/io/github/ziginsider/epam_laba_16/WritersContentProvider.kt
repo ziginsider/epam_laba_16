@@ -51,8 +51,7 @@ class WritersContentProvider : ContentProvider() {
         when (uriMatcher.match(uri)) {
             WRITERS -> count = db.delete(DATA_BASE_TABLE_NAME, where, selectionArgs)
             WRITERS_ID -> {
-                var selection
-                        = "$COLUMN_NAME_ID = ${uri?.pathSegments?.get(WRITERS_ID_PATH_POSITION)}"
+                var selection = "$_ID = ${uri?.pathSegments?.get(WRITERS_ID_PATH_POSITION)}"
                 where?.let { selection = "$selection AND $where" }
                 count = db.delete(DATA_BASE_TABLE_NAME, selection, selectionArgs)
             }
@@ -70,7 +69,7 @@ class WritersContentProvider : ContentProvider() {
             WRITERS -> count = db.update(DATA_BASE_TABLE_NAME, values, where, selectionArgs)
             WRITERS_ID -> {
                 val id = uri?.pathSegments?.get(WRITERS_ID_PATH_POSITION)
-                var selection = "$COLUMN_NAME_ID = $id"
+                var selection = "$_ID = $id"
                 where?.let { selection = "$selection AND $where" }
                 count = db.update(DATA_BASE_TABLE_NAME, values, selection, selectionArgs)
             }
@@ -93,7 +92,7 @@ class WritersContentProvider : ContentProvider() {
             WRITERS_ID -> {
                 qBuilder.tables = DATA_BASE_TABLE_NAME
                 qBuilder.setProjectionMap(writersProjectionMap)
-                qBuilder.appendWhere("$COLUMN_NAME_ID = " +
+                qBuilder.appendWhere("$_ID = " +
                         "${uri?.pathSegments?.get(WRITERS_ID_PATH_POSITION)}")
                 orderBy = DEFAULT_SORT_ORDER
             }
@@ -111,11 +110,11 @@ class WritersContentProvider : ContentProvider() {
         else -> throw IllegalArgumentException("Unknown URI = $uri")
     }
 
-    private class DataBaseHelper(val context: Context) : SQLiteOpenHelper(context, DATA_BASE_NAME,
+    private class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATA_BASE_NAME,
             null, DATA_BASE_VERSION) {
         private val DB_NAME = DATA_BASE_NAME
         private val TABLE_NAME = DATA_BASE_TABLE_NAME
-        private val ID = COLUMN_NAME_ID
+        private val ID = _ID
         private val FIRST_NAME = COLUMN_NAME_FIRST_NAME
         private val SECOND_NAME = COLUMN_NAME_SECOND_NAME
         private val BOOK = COLUMN_NAME_BOOK
