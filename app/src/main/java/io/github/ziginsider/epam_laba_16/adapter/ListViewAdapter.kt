@@ -9,7 +9,7 @@ import android.widget.CursorAdapter
 import android.widget.TextView
 import io.github.ziginsider.epam_laba_16.*
 
-class ListViewAdapter(val context: Context, cursor: Cursor, val flags: Int)
+class ListViewAdapter(context: Context, cursor: Cursor, flags: Int)
     : CursorAdapter(context, cursor, flags) {
 
     private val inflater: LayoutInflater
@@ -20,7 +20,10 @@ class ListViewAdapter(val context: Context, cursor: Cursor, val flags: Int)
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup?): View {
         val view = inflater.inflate(R.layout.item_view, parent, false)
         val holder = ViewHolder()
-
+        holder.writerName = view.findViewById(R.id.firstNameItem)
+        holder.writerSecondName = view.findViewById(R.id.secondNameItem)
+        holder.book = view.findViewById(R.id.bookItem)
+        holder.isbn = view.findViewById(R.id.isbnItem)
         view.tag = holder
         return view
     }
@@ -48,5 +51,4 @@ class ListViewAdapter(val context: Context, cursor: Cursor, val flags: Int)
         lateinit var book: TextView
         lateinit var isbn: TextView
     }
-
 }
