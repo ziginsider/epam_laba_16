@@ -125,7 +125,7 @@ class WritersContentProvider : ContentProvider() {
                 "$FIRST_NAME STRING, " +
                 "$SECOND_NAME STRING, " +
                 "$BOOK STRING, " +
-                "$ISBN INTEGER)"
+                "$ISBN LONG)"
 
         override fun onCreate(db: SQLiteDatabase?) {
             db?.execSQL(QUERY_DB_CREATE)

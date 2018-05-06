@@ -55,16 +55,24 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
                     stringFieldForInsert(secondName, "Second_name"),
                     stringFieldForInsert(bookName, "Title_of_book"),
                     intFieldForInsert(isbnNumber))
+            cleanFields()
         }
+    }
+
+    private fun cleanFields() {
+        firstName.setText("")
+        secondName.setText("")
+        bookName.setText("")
+        isbnNumber.setText("")
     }
 
     private fun stringFieldForInsert(field: EditText, defaultText: String = "")
             = if (field.text.isNotEmpty()) field.text.toString() else defaultText
 
-    private fun intFieldForInsert(field: EditText, defaultInt: Int = 0)
-            = if (field.text.isNotEmpty()) field.text.toString().toInt() else defaultInt
+    private fun intFieldForInsert(field: EditText, defaultInt: Long = 0L)
+            = if (field.text.isNotEmpty()) field.text.toString().toLong() else defaultInt
 
-    private fun insertData(name: String, secondName: String, book: String, isbn: Int) {
+    private fun insertData(name: String, secondName: String, book: String, isbn: Long) {
         val insertValues = ContentValues()
         insertValues.put(COLUMN_NAME_FIRST_NAME, name)
         insertValues.put(COLUMN_NAME_SECOND_NAME, secondName)
