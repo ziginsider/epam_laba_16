@@ -1,5 +1,6 @@
 package io.github.ziginsider.epam_laba_16
 
+import android.content.ContentValues
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         listView.adapter = listViewAdapter
 
         supportLoaderManager.initLoader(0, null, this)
+
+        initSubmitButton()
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?) = CursorLoader(this, CONTENT_URI,
@@ -36,12 +39,34 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         } else {
             emptyListTextView.visibility = View.VISIBLE
         }
-        Log.d("TAG", "[ ON LOADER FINISHED ${data?.count}]")
+        Log.d("TAG", "[ ON LOADER FINISHED ]")
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
-        //TODO adapter.swapCursor(null)
+        listViewAdapter.swapCursor(null)
         Log.d("TAG", "[ ON LOADER RESET ]")
+    }
+
+    private fun initSubmitButton() {
+        submitButton.setOnClickListener {
+            insertData(
+                    if (firstName.text.isNotEmpty()) firstName.text.toString() else "Writer_name",
+                    if (secondName.text.isNotEmpty()) secondName.text.toString() else "Second_name",
+                    if (bookName.text.isNotEmpty()) bookName.text.toString() else "Title_of_book",
+                    if (isbnNumber.text.isNotEmpty()) isbnNumber.text.toString().toInt() else 1111)
+        }
+    }
+
+    private fun insertData(name: String, secondName: String, book: String, isbn: Int) {
+        val insertValues = ContentValues()
+        insertValues.put(COLUMN_NAME_FIRST_NAME, name)
+        insertValues.put(COLUMN_NAME_SECOND_NAME, secondName)
+        insertValues.put(COLUMN_NAME_BOOK, book)
+        insertValues.put(COLUMN_NAME_ISBN, isbn)
+
+        val resultUri = contentResolver.insert(CONTENT_URI, insertValues)
+
+        Log.d("TAG", "[ INSERT URI = $resultUri]")
     }
 
 
