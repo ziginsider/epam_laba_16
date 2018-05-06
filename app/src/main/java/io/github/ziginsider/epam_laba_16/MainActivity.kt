@@ -7,6 +7,7 @@ import android.support.v4.app.LoaderManager
 import android.support.v4.content.CursorLoader
 import android.support.v4.content.Loader
 import android.util.Log
+import android.view.View
 import io.github.ziginsider.epam_laba_16.adapter.ListViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,13 +30,18 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
             DEFAULT_REQUEST, null, null, null)
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
-        //TODO adapter.swapCursor(data)
-        Log.d("", "[ ON LOADER FINISHED ]")
+        if (data?.count!! > 0) {
+            emptyListTextView.visibility = View.GONE
+            listViewAdapter.swapCursor(data)
+        } else {
+            emptyListTextView.visibility = View.VISIBLE
+        }
+        Log.d("TAG", "[ ON LOADER FINISHED ${data?.count}]")
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
         //TODO adapter.swapCursor(null)
-        Log.d("", "[ ON LOADER RESET ]")
+        Log.d("TAG", "[ ON LOADER RESET ]")
     }
 
 
