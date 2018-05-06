@@ -10,6 +10,7 @@ import android.support.v4.content.Loader
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import io.github.ziginsider.epam_laba_16.adapter.ListViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         supportLoaderManager.initLoader(0, null, this)
 
         initSubmitButton()
+        initUpdateButton()
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?) = CursorLoader(this, CONTENT_URI,
@@ -59,6 +61,30 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         }
     }
 
+    private fun initUpdateButton() {
+        updateButton.setOnClickListener {
+            val result = updateData(
+                    stringFieldForInsert(firstName, "Writer_name"),
+                    stringFieldForInsert(secondName, "Second_name"),
+                    stringFieldForInsert(bookName, "Title_of_book"),
+                    intFieldForInsert(isbnNumber))
+            if (!result) {
+                Toast.makeText(this, "ISBN wasn't found", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun updateData(name: String, secondName: String, book: String, isbn: Long): Boolean {
+        val updateValues = ContentValues()
+        updateValues.put(COLUMN_NAME_FIRST_NAME, name)
+        updateValues.put(COLUMN_NAME_SECOND_NAME, secondName)
+        updateValues.put(COLUMN_NAME_BOOK, book)
+        updateValues.put(COLUMN_NAME_ISBN, isbn)
+        val selectionClause = "$COLUMN_NAME_ISBN = ?"
+        val selectionArgs = arrayOf(isbn.toString())
+        return contentResolver.update(CONTENT_URI, updateValues, selectionClause, selectionArgs) > 0
+    }
+
     private fun cleanFields() {
         firstName.setText("")
         secondName.setText("")
@@ -78,9 +104,6 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         insertValues.put(COLUMN_NAME_SECOND_NAME, secondName)
         insertValues.put(COLUMN_NAME_BOOK, book)
         insertValues.put(COLUMN_NAME_ISBN, isbn)
-
-        val resultUri = contentResolver.insert(CONTENT_URI, insertValues)
-
-        Log.d("TAG", "[ INSERT URI = $resultUri]")
+        contentResolver.insert(CONTENT_URI, insertValues)
     }
 }
