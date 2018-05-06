@@ -16,7 +16,7 @@ const val CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.io.ziginsider.writers
 
 const val DATA_BASE_VERSION = 1
 const val DATA_BASE_NAME = "writers_db"
-const val DATA_BASE_TABLE_NAME = "writers_table"
+const val DATA_BASE_TABLE_NAME = "writers"
 const val _ID = "_id"
 const val COLUMN_NAME_FIRST_NAME = "first_name"
 const val COLUMN_NAME_SECOND_NAME = "second_name"

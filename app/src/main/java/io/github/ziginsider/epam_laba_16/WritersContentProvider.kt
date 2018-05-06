@@ -12,7 +12,7 @@ const val WRITERS_ID = 2
 
 class WritersContentProvider : ContentProvider() {
     companion object {
-        private lateinit var writersProjectionMap: HashMap<String, String>
+        private var writersProjectionMap: HashMap<String, String> = HashMap<String, String>()
         private val uriMatcher: UriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
         init {

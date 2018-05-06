@@ -9,7 +9,7 @@ import android.widget.CursorAdapter
 import android.widget.TextView
 import io.github.ziginsider.epam_laba_16.*
 
-class ListViewAdapter(context: Context, cursor: Cursor, flags: Int)
+class ListViewAdapter(context: Context, cursor: Cursor?, flags: Int)
     : CursorAdapter(context, cursor, flags) {
 
     private val inflater: LayoutInflater

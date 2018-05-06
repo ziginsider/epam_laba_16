@@ -6,11 +6,23 @@ import android.os.Bundle
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.CursorLoader
 import android.support.v4.content.Loader
+import android.util.Log
+import io.github.ziginsider.epam_laba_16.adapter.ListViewAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
+
+    private lateinit var listViewAdapter: ListViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        listViewAdapter = ListViewAdapter(this, null, 0)
+
+        listView.adapter = listViewAdapter
+
+        supportLoaderManager.initLoader(0, null, this)
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?) = CursorLoader(this, CONTENT_URI,
@@ -18,10 +30,12 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
         //TODO adapter.swapCursor(data)
+        Log.d("", "[ ON LOADER FINISHED ]")
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
         //TODO adapter.swapCursor(null)
+        Log.d("", "[ ON LOADER RESET ]")
     }
 
 
