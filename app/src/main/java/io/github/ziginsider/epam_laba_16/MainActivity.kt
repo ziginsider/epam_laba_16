@@ -9,6 +9,7 @@ import android.support.v4.content.CursorLoader
 import android.support.v4.content.Loader
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import io.github.ziginsider.epam_laba_16.adapter.ListViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -50,12 +51,18 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
     private fun initSubmitButton() {
         submitButton.setOnClickListener {
             insertData(
-                    if (firstName.text.isNotEmpty()) firstName.text.toString() else "Writer_name",
-                    if (secondName.text.isNotEmpty()) secondName.text.toString() else "Second_name",
-                    if (bookName.text.isNotEmpty()) bookName.text.toString() else "Title_of_book",
-                    if (isbnNumber.text.isNotEmpty()) isbnNumber.text.toString().toInt() else 1111)
+                    stringFieldForInsert(firstName, "Writer_name"),
+                    stringFieldForInsert(secondName, "Second_name"),
+                    stringFieldForInsert(bookName, "Title_of_book"),
+                    intFieldForInsert(isbnNumber))
         }
     }
+
+    private fun stringFieldForInsert(field: EditText, defaultText: String = "")
+            = if (field.text.isNotEmpty()) field.text.toString() else defaultText
+
+    private fun intFieldForInsert(field: EditText, defaultInt: Int = 0)
+            = if (field.text.isNotEmpty()) field.text.toString().toInt() else defaultInt
 
     private fun insertData(name: String, secondName: String, book: String, isbn: Int) {
         val insertValues = ContentValues()
@@ -68,6 +75,4 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
 
         Log.d("TAG", "[ INSERT URI = $resultUri]")
     }
-
-
 }
