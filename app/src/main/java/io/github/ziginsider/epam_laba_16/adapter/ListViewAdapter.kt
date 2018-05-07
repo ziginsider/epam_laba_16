@@ -24,8 +24,8 @@ class ListViewAdapter(context: Context, cursor: Cursor?, flags: Int,
         holder.writerSecondName = view.findViewById(R.id.secondNameItem)
         holder.book = view.findViewById(R.id.bookItem)
         holder.isbn = view.findViewById(R.id.isbnItem)
+        holder.img = view.findViewById(R.id.removeItemImg)
         view.tag = holder
-        view.findViewById<ImageView>(R.id.removeItem).setOnClickListener { onRemoveClick(cursor.getInt(cursor.getColumnIndex(_ID))) }
         return view
     }
 
@@ -42,6 +42,7 @@ class ListViewAdapter(context: Context, cursor: Cursor?, flags: Int,
             it.writerSecondName.text = secondName
             it.book.text = book
             it.isbn.text = isbn
+            it.img.setOnClickListener { onRemoveClick(id.toInt()) }
         }
     }
 
@@ -51,6 +52,7 @@ class ListViewAdapter(context: Context, cursor: Cursor?, flags: Int,
         lateinit var writerSecondName: TextView
         lateinit var book: TextView
         lateinit var isbn: TextView
+        lateinit var img: ImageView
     }
 
     private fun onRemoveClick(id: Int) {

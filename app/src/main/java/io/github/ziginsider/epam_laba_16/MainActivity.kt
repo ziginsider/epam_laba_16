@@ -107,6 +107,6 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
     }
 
     private fun removeItem(id: Int) {
-        Toast.makeText(this, "ISBN wasn't found", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "I'm = $id", Toast.LENGTH_SHORT).show()
     }
 }
