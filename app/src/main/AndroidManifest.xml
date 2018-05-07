@@ -21,7 +21,5 @@
             android:name=".WritersContentProvider"
             android:authorities="io.github.ziginsider.epam_laba_16.ContractKt"
             android:exported="false" />
-        
     </application>
-
 </manifest>

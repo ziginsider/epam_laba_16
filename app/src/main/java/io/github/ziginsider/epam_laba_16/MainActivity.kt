@@ -107,6 +107,8 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
     }
 
     private fun removeItem(id: Int) {
-        Toast.makeText(this, "I'm = $id", Toast.LENGTH_SHORT).show()
+        val selectionClause = "$_ID = ?"
+        val selectionArgs = arrayOf(id.toString())
+        contentResolver.delete(CONTENT_URI, selectionClause, selectionArgs)
     }
 }
