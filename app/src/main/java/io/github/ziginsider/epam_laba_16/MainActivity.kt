@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.Toast
 import io.github.ziginsider.epam_laba_16.adapter.ListViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_view.*
 
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        listViewAdapter = ListViewAdapter(this, null, 0)
+        listViewAdapter = ListViewAdapter(this, null, 0, { removeItem(this) })
 
         listView.adapter = listViewAdapter
 
@@ -92,11 +93,9 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         isbnNumber.setText("")
     }
 
-    private fun stringFieldForInsert(field: EditText, defaultText: String = "")
-            = if (field.text.isNotEmpty()) field.text.toString() else defaultText
+    private fun stringFieldForInsert(field: EditText, defaultText: String = "") = if (field.text.isNotEmpty()) field.text.toString() else defaultText
 
-    private fun intFieldForInsert(field: EditText, defaultInt: Long = 0L)
-            = if (field.text.isNotEmpty()) field.text.toString().toLong() else defaultInt
+    private fun intFieldForInsert(field: EditText, defaultInt: Long = 0L) = if (field.text.isNotEmpty()) field.text.toString().toLong() else defaultInt
 
     private fun insertData(name: String, secondName: String, book: String, isbn: Long) {
         val insertValues = ContentValues()
@@ -105,5 +104,9 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         insertValues.put(COLUMN_NAME_BOOK, book)
         insertValues.put(COLUMN_NAME_ISBN, isbn)
         contentResolver.insert(CONTENT_URI, insertValues)
+    }
+
+    private fun removeItem(id: Int) {
+        Toast.makeText(this, "ISBN wasn't found", Toast.LENGTH_SHORT).show()
     }
 }
