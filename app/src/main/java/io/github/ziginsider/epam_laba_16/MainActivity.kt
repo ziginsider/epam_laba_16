@@ -13,6 +13,19 @@ import android.widget.Toast
 import io.github.ziginsider.epam_laba_16.adapter.ListViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
+/**
+ * Contains fields for values of SQLite database (see [WritersContentProvider.DataBaseHelper]),
+ * two buttons and list of rows of SQLite database
+ *
+ * [submitButton] adds data from fields to database with help [WritersContentProvider]
+ *
+ * [updateButton] updates data in database by isbn field with help [WritersContentProvider]
+ *
+ * Implements [LoaderManager.LoaderCallbacks] for [Cursor]
+ *
+ * @author Alex Kisel
+ * @since 2018-05-01
+ */
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     private lateinit var listViewAdapter: ListViewAdapter

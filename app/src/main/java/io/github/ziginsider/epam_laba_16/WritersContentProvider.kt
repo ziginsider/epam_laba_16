@@ -10,6 +10,14 @@ import android.net.Uri
 const val WRITERS = 1
 const val WRITERS_ID = 2
 
+/**
+ * Implements [ContentProvider] for SQLite data base (see [DataBaseHelper])
+ *
+ * Implements [insert], [delete], [update], [query] and [getType] methods
+ *
+ * @author Alex Kisel
+ * @since 2018-05-01
+ */
 class WritersContentProvider : ContentProvider() {
 
     companion object {
@@ -111,6 +119,12 @@ class WritersContentProvider : ContentProvider() {
         else -> throw IllegalArgumentException("Unknown URI = $uri")
     }
 
+    /**
+     * Implements [SQLiteOpenHelper] for internal data base "writers"
+     *
+     * Data base has the next columns: writer's id, first name of writer, second name, title of book,
+     * isbn number of book.
+     */
     private class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATA_BASE_NAME,
             null, DATA_BASE_VERSION) {
 

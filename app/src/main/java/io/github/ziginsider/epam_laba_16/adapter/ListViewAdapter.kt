@@ -10,6 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import io.github.ziginsider.epam_laba_16.*
 
+/**
+ * Adapter for list of database rows (see [WritersContentProvider.DataBaseHelper])
+ *
+ * implements [CursorAdapter]
+ *
+ * @author Alex Kisel
+ * @since 2018-05-02
+ */
 class ListViewAdapter(context: Context, cursor: Cursor?, flags: Int,
                       private var removeClick: Int.() -> Unit = {})
     : CursorAdapter(context, cursor, flags) {

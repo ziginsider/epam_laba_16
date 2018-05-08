@@ -2,6 +2,9 @@ package io.github.ziginsider.epam_laba_16
 
 import android.net.Uri
 
+/**
+ * Contract values for [WritersContentProvider]
+ */
 const val AUTHORITY = "io.github.ziginsider.epam_laba_16.ContractKt"
 const val SCHEME = "content://"
 const val PATH_WRITERS = "/writers"
