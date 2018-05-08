@@ -14,23 +14,25 @@ class ListViewAdapter(context: Context, cursor: Cursor?, flags: Int,
                       private var removeClick: Int.() -> Unit = {})
     : CursorAdapter(context, cursor, flags) {
 
-    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    //inflater = LayoutInflater.from(context)
+    private val inflater: LayoutInflater
+            = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup?): View {
         val view = inflater.inflate(R.layout.item_view, parent, false)
         val holder = ViewHolder()
-        holder.writerName = view.findViewById(R.id.firstNameItem)
-        holder.writerSecondName = view.findViewById(R.id.secondNameItem)
-        holder.book = view.findViewById(R.id.bookItem)
-        holder.isbn = view.findViewById(R.id.isbnItem)
-        holder.img = view.findViewById(R.id.removeItemImg)
+        with(holder) {
+            writerName = view.findViewById(R.id.firstNameItem)
+            writerSecondName = view.findViewById(R.id.secondNameItem)
+            book = view.findViewById(R.id.bookItem)
+            isbn = view.findViewById(R.id.isbnItem)
+            img = view.findViewById(R.id.removeItemImg)
+        }
         view.tag = holder
         return view
     }
 
     override fun bindView(view: View?, context: Context, cursor: Cursor) {
-        val id = cursor.getLong(cursor.getColumnIndex(_ID))
+        val id = cursor.getInt(cursor.getColumnIndex(_ID))
         val name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_FIRST_NAME))
         val secondName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_SECOND_NAME))
         val book = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_BOOK))
@@ -47,7 +49,7 @@ class ListViewAdapter(context: Context, cursor: Cursor?, flags: Int,
     }
 
     private class ViewHolder {
-        var id: Long = 0
+        var id: Int = 0
         lateinit var writerName: TextView
         lateinit var writerSecondName: TextView
         lateinit var book: TextView

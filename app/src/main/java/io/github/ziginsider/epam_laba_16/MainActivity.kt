@@ -7,13 +7,11 @@ import android.os.Bundle
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.CursorLoader
 import android.support.v4.content.Loader
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import io.github.ziginsider.epam_laba_16.adapter.ListViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_view.*
 
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -22,13 +20,9 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         listViewAdapter = ListViewAdapter(this, null, 0, { removeItem(this) })
-
         listView.adapter = listViewAdapter
-
         supportLoaderManager.initLoader(0, null, this)
-
         initSubmitButton()
         initUpdateButton()
     }
@@ -43,12 +37,10 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         } else {
             emptyListTextView.visibility = View.VISIBLE
         }
-        Log.d("TAG", "[ ON LOADER FINISHED ]")
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
         listViewAdapter.swapCursor(null)
-        Log.d("TAG", "[ ON LOADER RESET ]")
     }
 
     private fun initSubmitButton() {
@@ -77,10 +69,12 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
 
     private fun updateData(name: String, secondName: String, book: String, isbn: Long): Boolean {
         val updateValues = ContentValues()
-        updateValues.put(COLUMN_NAME_FIRST_NAME, name)
-        updateValues.put(COLUMN_NAME_SECOND_NAME, secondName)
-        updateValues.put(COLUMN_NAME_BOOK, book)
-        updateValues.put(COLUMN_NAME_ISBN, isbn)
+        with(updateValues) {
+            put(COLUMN_NAME_FIRST_NAME, name)
+            put(COLUMN_NAME_SECOND_NAME, secondName)
+            put(COLUMN_NAME_BOOK, book)
+            put(COLUMN_NAME_ISBN, isbn)
+        }
         val selectionClause = "$COLUMN_NAME_ISBN = ?"
         val selectionArgs = arrayOf(isbn.toString())
         return contentResolver.update(CONTENT_URI, updateValues, selectionClause, selectionArgs) > 0
@@ -93,16 +87,20 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         isbnNumber.setText("")
     }
 
-    private fun stringFieldForInsert(field: EditText, defaultText: String = "") = if (field.text.isNotEmpty()) field.text.toString() else defaultText
+    private fun stringFieldForInsert(field: EditText, defaultText: String = "")
+            = if (field.text.isNotEmpty()) field.text.toString() else defaultText
 
-    private fun intFieldForInsert(field: EditText, defaultInt: Long = 0L) = if (field.text.isNotEmpty()) field.text.toString().toLong() else defaultInt
+    private fun intFieldForInsert(field: EditText, defaultInt: Long = 0L)
+            = if (field.text.isNotEmpty()) field.text.toString().toLong() else defaultInt
 
     private fun insertData(name: String, secondName: String, book: String, isbn: Long) {
         val insertValues = ContentValues()
-        insertValues.put(COLUMN_NAME_FIRST_NAME, name)
-        insertValues.put(COLUMN_NAME_SECOND_NAME, secondName)
-        insertValues.put(COLUMN_NAME_BOOK, book)
-        insertValues.put(COLUMN_NAME_ISBN, isbn)
+        with(insertValues) {
+            put(COLUMN_NAME_FIRST_NAME, name)
+            put(COLUMN_NAME_SECOND_NAME, secondName)
+            put(COLUMN_NAME_BOOK, book)
+            put(COLUMN_NAME_ISBN, isbn)
+        }
         contentResolver.insert(CONTENT_URI, insertValues)
     }
 
