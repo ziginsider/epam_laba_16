@@ -22,7 +22,7 @@ add more data:
 <img alt="add more" src="img/addsome.png"/>
 <br>
 
-result updating and deleting:
+result updating (item "Alexander Pushkin") and deleting (item "Ivan Turgenev"):
 
 <img alt="update and delete" src="img/addchanges.png"/>
 <br>
