@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @since 2018-05-01
  */
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
-    
+
     private lateinit var listViewAdapter: ListViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
