@@ -10,6 +10,13 @@ import android.support.v4.content.Loader
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_BOOK
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_FIRST_NAME
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_ISBN
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_SECOND_NAME
+import io.github.ziginsider.epam_laba_16.Contract.CONTENT_URI
+import io.github.ziginsider.epam_laba_16.Contract.DEFAULT_REQUEST
+import io.github.ziginsider.epam_laba_16.Contract._ID
 import io.github.ziginsider.epam_laba_16.adapter.ListViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
