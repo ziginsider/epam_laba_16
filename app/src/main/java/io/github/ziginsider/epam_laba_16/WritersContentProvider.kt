@@ -6,6 +6,21 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
+import io.github.ziginsider.epam_laba_16.Contract.AUTHORITY
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_BOOK
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_FIRST_NAME
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_ISBN
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_SECOND_NAME
+import io.github.ziginsider.epam_laba_16.Contract.CONTENT_ID_URI_BASE
+import io.github.ziginsider.epam_laba_16.Contract.CONTENT_ITEM_TYPE
+import io.github.ziginsider.epam_laba_16.Contract.CONTENT_TYPE
+import io.github.ziginsider.epam_laba_16.Contract.DATA_BASE_NAME
+import io.github.ziginsider.epam_laba_16.Contract.DATA_BASE_TABLE_NAME
+import io.github.ziginsider.epam_laba_16.Contract.DATA_BASE_VERSION
+import io.github.ziginsider.epam_laba_16.Contract.DEFAULT_REQUEST
+import io.github.ziginsider.epam_laba_16.Contract.DEFAULT_SORT_ORDER
+import io.github.ziginsider.epam_laba_16.Contract.WRITERS_ID_PATH_POSITION
+import io.github.ziginsider.epam_laba_16.Contract._ID
 
 /**
  * Implements [ContentProvider] for SQLite data base (see [DataBaseHelper])
