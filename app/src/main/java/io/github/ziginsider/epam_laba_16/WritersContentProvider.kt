@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 
-const val WRITERS = 1
-const val WRITERS_ID = 2
-
 /**
  * Implements [ContentProvider] for SQLite data base (see [DataBaseHelper])
  *
@@ -20,19 +17,6 @@ const val WRITERS_ID = 2
  */
 class WritersContentProvider : ContentProvider() {
 
-    companion object {
-        private var writersProjectionMap: HashMap<String, String> = HashMap()
-        private val uriMatcher: UriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-
-        init {
-            uriMatcher.addURI(AUTHORITY, DATA_BASE_TABLE_NAME, WRITERS)
-            uriMatcher.addURI(AUTHORITY, "$DATA_BASE_TABLE_NAME/#", WRITERS_ID)
-            for (request in DEFAULT_REQUEST) {
-                writersProjectionMap[request] = request
-            }
-        }
-    }
-
     private lateinit var dbHelper: DataBaseHelper
 
     override fun onCreate(): Boolean {
@@ -42,7 +26,9 @@ class WritersContentProvider : ContentProvider() {
 
     override fun insert(uri: Uri?, contentValues: ContentValues?): Uri {
         val matchUri = uriMatcher.match(uri)
-        if (matchUri != WRITERS) throw IllegalArgumentException("Unknown URI = $uri")
+        if (matchUri != WRITERS) {
+            throw IllegalArgumentException("Unknown URI = $uri")
+        }
         val db = dbHelper.writableDatabase
         val values = if (contentValues != null) ContentValues(contentValues) else ContentValues()
         var rowUri = Uri.EMPTY
@@ -142,6 +128,22 @@ class WritersContentProvider : ContentProvider() {
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
             db?.execSQL("DROP TABLE IF EXISTS $DATA_BASE_TABLE_NAME")
             onCreate(db)
+        }
+    }
+
+    companion object {
+
+        private const val WRITERS = 1
+        private const val WRITERS_ID = 2
+        private var writersProjectionMap: HashMap<String, String> = HashMap()
+        private val uriMatcher: UriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+
+        init {
+            uriMatcher.addURI(AUTHORITY, DATA_BASE_TABLE_NAME, WRITERS)
+            uriMatcher.addURI(AUTHORITY, "$DATA_BASE_TABLE_NAME/#", WRITERS_ID)
+            for (request in DEFAULT_REQUEST) {
+                writersProjectionMap[request] = request
+            }
         }
     }
 }
