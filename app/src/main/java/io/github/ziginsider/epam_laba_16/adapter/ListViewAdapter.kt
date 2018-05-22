@@ -9,6 +9,11 @@ import android.widget.CursorAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import io.github.ziginsider.epam_laba_16.*
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_BOOK
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_FIRST_NAME
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_ISBN
+import io.github.ziginsider.epam_laba_16.Contract.COLUMN_NAME_SECOND_NAME
+import io.github.ziginsider.epam_laba_16.Contract._ID
 
 /**
  * Adapter for list of database rows (see [WritersContentProvider.DataBaseHelper])
@@ -48,21 +53,22 @@ class ListViewAdapter(context: Context, cursor: Cursor?, flags: Int,
         val holder = view?.tag as ViewHolder?
         holder?.let {
             it.id = id
-            it.writerName.text = name
-            it.writerSecondName.text = secondName
-            it.book.text = book
-            it.isbn.text = isbn
-            it.img.setOnClickListener { onRemoveClick(id.toInt()) }
+            it.writerName?.text = name
+            it.writerSecondName?.text = secondName
+            it.book?.text = book
+            it.isbn?.text = isbn
+            it.img?.setOnClickListener { onRemoveClick(id) }
         }
     }
 
     private class ViewHolder {
+
         var id: Int = 0
-        lateinit var writerName: TextView
-        lateinit var writerSecondName: TextView
-        lateinit var book: TextView
-        lateinit var isbn: TextView
-        lateinit var img: ImageView
+        var writerName: TextView? = null
+        var writerSecondName: TextView? = null
+        var book: TextView? = null
+        var isbn: TextView? = null
+        var img: ImageView? = null
     }
 
     private fun onRemoveClick(id: Int) {
