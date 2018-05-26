@@ -151,7 +151,7 @@ class WritersContentProvider : ContentProvider() {
         private const val WRITERS = 1
         private const val WRITERS_ID = 2
         private var writersProjectionMap: HashMap<String, String> = HashMap()
-        private val uriMatcher: UriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+        private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
         init {
             uriMatcher.addURI(AUTHORITY, DATA_BASE_TABLE_NAME, WRITERS)
